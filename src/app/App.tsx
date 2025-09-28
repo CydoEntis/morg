@@ -1,5 +1,5 @@
 import { RouterProvider } from '@tanstack/react-router'
-import { QueryProvider } from './providers'
+import { QueryProvider } from './QueryProvider'
 import { router } from '@/router'
 
 export function App() {
