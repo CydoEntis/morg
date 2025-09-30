@@ -1,26 +1,13 @@
-import { motion } from 'framer-motion'
 import { Switch } from '../ui/switch'
-import { useThemeToggle } from '@/hooks/useThemeToggle'
+import { useThemeStore } from '@/stores/useThemeStore'
+import { THEMES } from '@/constants/theme'
 
 export function ThemeSwitch() {
-  const { isDark, nextTheme, handleToggle, applyNextTheme } = useThemeToggle()
+  const { setTheme, isDark } = useThemeStore()
 
-  return (
-    <>
-      <Switch checked={isDark} onCheckedChange={handleToggle} />
+  const handleToggle = (checked: boolean) => {
+    setTheme(checked ? THEMES.DARK : THEMES.LIGHT)
+  }
 
-      {nextTheme && (
-        <motion.div
-          key={nextTheme}
-          initial={{ y: '-100%' }}
-          animate={{ y: '0%' }}
-          transition={{ duration: 0.4, ease: 'easeInOut' }}
-          className={`fixed top-0 left-0 w-full h-full z-50 pointer-events-none ${
-            nextTheme === 'dark' ? 'bg-background' : 'dark:bg-background'
-          }`}
-          onAnimationComplete={applyNextTheme}
-        />
-      )}
-    </>
-  )
+  return <Switch checked={isDark()} onCheckedChange={handleToggle} />
 }
