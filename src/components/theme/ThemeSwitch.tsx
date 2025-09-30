@@ -1,19 +1,21 @@
 import { motion } from 'framer-motion'
 import { useState } from 'react'
 import { Switch } from '../ui/switch'
+import type { Theme } from '@/constants/theme'
 import { useTheme } from '@/app/ThemeProvider'
+import { THEMES } from '@/constants/theme'
 
 export function ThemeSwitch() {
   const { theme, setTheme } = useTheme()
-  const [nextTheme, setNextTheme] = useState<'light' | 'dark' | null>(null)
+  const [nextTheme, setNextTheme] = useState<Theme | null>(null)
 
   const isDark =
-    theme === 'dark' ||
-    (theme === 'system' &&
+    theme === THEMES.DARK ||
+    (theme === THEMES.SYSTEM &&
       window.matchMedia('(prefers-color-scheme: dark)').matches)
 
   const handleToggle = (checked: boolean) => {
-    setNextTheme(checked ? 'dark' : 'light')
+    setNextTheme(checked ? THEMES.DARK : THEMES.LIGHT)
   }
 
   return (
@@ -27,7 +29,7 @@ export function ThemeSwitch() {
           animate={{ y: '0%' }}
           transition={{ duration: 0.4, ease: 'easeInOut' }}
           className={`fixed top-0 left-0 w-full h-full z-50 pointer-events-none ${
-            nextTheme === 'dark' ? 'bg-background' : 'dark:bg-background'
+            nextTheme === THEMES.DARK ? 'bg-background' : 'dark:bg-background'
           }`}
           onAnimationComplete={() => {
             setTheme(nextTheme)
